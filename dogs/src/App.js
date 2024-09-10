@@ -1,23 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react'
+import axios from 'axios';
 
 function App() {
+  const [breeds, setBreeds] = useState(null)
+
+  useEffect(() => {
+    const url = "https://dog.ceo/api/breeds/list/all"
+    axios.get(url).then((response) => {setBreeds(response.data.message)})
+    console.log(breeds)
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <select>
+        {breeds ? Object.keys(breeds).map((breed, i) => {
+          return <option key={breed} value={breed}>{breed}</option>
+        }) : null}
+      </select>
     </div>
   );
 }
