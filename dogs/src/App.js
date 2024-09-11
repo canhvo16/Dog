@@ -7,6 +7,11 @@ function App() {
   const [selectedBreed, setSelectedBreed] = useState(null)
   const [dogImages, setDogImages] = useState(null)
 
+  const onChange = (e) => {
+    setSelectedBreed(e.target.value)
+    getBreedImages(selectedBreed)
+  }
+
   const getBreedImages = (breed) => {
     const url = `https://dog.ceo/api/breed/${breed}/images`
     axios.get(url).then((response) => {setDogImages(response.data.message)})
@@ -19,15 +24,16 @@ function App() {
 
   return (
     <div>
-      <select onChange={(e) => {
-        setSelectedBreed(e.target.value)
-        getBreedImages(selectedBreed)
-      }}>
+      <select onChange={onChange}>
         {breeds ? Object.keys(breeds).map((breed, i) => {
           return <option key={breed} value={breed}>{breed}</option>
         }) : null}
       </select>
-      
+      <div>
+        {dogImages ? dogImages.map((image, i) => {
+          return <img src={image} alt={image} key={image}></img> 
+        }) : null}
+      </div>
     </div>
   );
 }
