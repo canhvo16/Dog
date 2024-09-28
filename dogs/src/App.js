@@ -21,6 +21,13 @@ function App() {
     axios.get(url).then((response) => {setDogImages(response.data.message)})
   }
 
+  const clearSelection = () => {
+    setDogImages(null)
+    setShowAll(false)
+    const dropdown = document.getElementById('dropdown')
+    dropdown.value = "default"
+  }
+
   useEffect(() => {
     const url = "https://dog.ceo/api/breeds/list/all"
     axios.get(url).then((response) => {setBreeds(response.data.message)})
@@ -28,7 +35,7 @@ function App() {
 
   return (
     <div>
-      <select onChange={onChange}>
+      <select onChange={onChange} id='dropdown'>
         <option value="default">Choose a breed!</option>
         {breeds ? Object.keys(breeds).map((breed, i) => {
           return <option key={breed} value={breed}>{breed}</option>
@@ -42,6 +49,7 @@ function App() {
           return <img src={image} alt={image} key={image}></img> 
           }) : null}
         {dogImages ? <button onClick={() => setShowAll(!showAll)}>{showAll ? "Show Less Images" : "Show All Images"}</button> : null}
+        {showAll ? <button onClick={() => clearSelection()}>Clear Selection</button> : null}
       </div>
     </div>
   );
