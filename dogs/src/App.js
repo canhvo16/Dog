@@ -4,12 +4,14 @@ import axios from 'axios';
 
 function App() {
   const [breeds, setBreeds] = useState(null)
-  const [selectedBreed, setSelectedBreed] = useState(null)
   const [dogImages, setDogImages] = useState(null)
 
   const onChange = (e) => {
-    setSelectedBreed(e.target.value)
-    getBreedImages(selectedBreed)
+    if (e.target.value !== 'default') {
+    getBreedImages(e.target.value)
+    } else {
+      setDogImages(null)
+    }
   }
 
   const getBreedImages = (breed) => {
@@ -25,6 +27,7 @@ function App() {
   return (
     <div>
       <select onChange={onChange}>
+        <option value="default">Choose a breed!</option>
         {breeds ? Object.keys(breeds).map((breed, i) => {
           return <option key={breed} value={breed}>{breed}</option>
         }) : null}
