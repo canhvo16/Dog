@@ -5,12 +5,14 @@ import axios from 'axios';
 function App() {
   const [breeds, setBreeds] = useState(null)
   const [dogImages, setDogImages] = useState(null)
+  const [showAll, setShowAll] = useState(false)
 
   const onChange = (e) => {
     if (e.target.value !== 'default') {
     getBreedImages(e.target.value)
     } else {
       setDogImages(null)
+      setShowAll(false)
     }
   }
 
@@ -33,9 +35,13 @@ function App() {
         }) : null}
       </select>
       <div>
-        {dogImages ? dogImages.map((image, i) => {
+        {dogImages && showAll? dogImages.map((image, i) => {
           return <img src={image} alt={image} key={image}></img> 
-        }) : null}
+          }) : null}
+        {dogImages && showAll === false ? dogImages.slice(0,10).map((image, i) => {
+          return <img src={image} alt={image} key={image}></img> 
+          }) : null}
+        {dogImages ? <button onClick={() => setShowAll(!showAll)}>{showAll ? "Show Less Images" : "Show All Images"}</button> : null}
       </div>
     </div>
   );
