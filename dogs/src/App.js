@@ -35,11 +35,15 @@ function App() {
     <div>
       <h1 id='header'>Dog Breed Images</h1>
       <select onChange={setDogBreed} id='dropdown'>
-        <option value="default">Choose a breed!</option>
+        <option value="default" className='dropdownOptions'>Choose a breed!</option>
         {breeds ? Object.keys(breeds).map((breed, i) => {
           return <option key={breed} value={breed}>{breed}</option>
         }) : null}
       </select>
+      <div>
+        {dogImages ? <button className='button' onClick={() => setShowAll(!showAll)}>{showAll ? "Show Less Images" : "Show All Images"}</button> : null}
+        {dogImages ? <button className='button' onClick={() => clearSelection()}>Clear Selection</button> : null}
+      </div>
       <div id='imageGallery'>
         {dogImages && showAll? dogImages.map((image, i) => {
           return <img className='dogImage' src={image} alt={image} key={image}></img> 
@@ -47,10 +51,6 @@ function App() {
         {dogImages && showAll === false ? dogImages.slice(0,10).map((image, i) => {
           return <img className='dogImage' src={image} alt={image} key={image}></img> 
           }) : null}
-      </div>
-      <div>
-        {dogImages ? <button className='button' onClick={() => setShowAll(!showAll)}>{showAll ? "Show Less Images" : "Show All Images"}</button> : null}
-        {dogImages ? <button className='button' onClick={() => clearSelection()}>Clear Selection</button> : null}
       </div>
     </div>
   );
